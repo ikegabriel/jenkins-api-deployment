@@ -43,7 +43,7 @@ pipeline {
                 //         sh 'docker push ikegabrielez/django-api:latest'
                 //     }
                 sh 'docker ps'
-                }
+                
             }
         }
         
