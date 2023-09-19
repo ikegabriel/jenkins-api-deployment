@@ -35,17 +35,17 @@ pipeline {
             }
         }
         
-        // stage('Docker Build & Push') {
-        //     steps {
-        //         // script{
-        //         //     withDockerRegistry(credentialsId: 'ce1c36b2-5c54-42ac-940e-0372d929ec2d', toolName: 'docker') {
-        //         //         sh 'docker build -t ikegabrielez/django-api:latest .'
-        //         //         sh 'docker push ikegabrielez/django-api:latest'
-        //         //     }
-        //         sh 'docker ps'
-        //         }
-        //     }
-        // }
+        stage('Docker Build & Push') {
+            steps {
+                // script{
+                //     withDockerRegistry(credentialsId: 'ce1c36b2-5c54-42ac-940e-0372d929ec2d', toolName: 'docker') {
+                //         sh 'docker build -t ikegabrielez/django-api:latest .'
+                //         sh 'docker push ikegabrielez/django-api:latest'
+                //     }
+                sh 'docker ps'
+                }
+            }
+        }
         
         stage('Deployment Approval Dev'){
             steps{
