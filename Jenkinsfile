@@ -53,7 +53,7 @@ pipeline {
             }
         }
         
-        stage('Deploy To QA') {
+        stage('Deploy To Dev') {
             steps {
                 sh 'docker ps'
             }
