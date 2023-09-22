@@ -10,7 +10,11 @@ pipeline {
         
         stage('Quality Scan') {
             steps {
-                sh 'ls'
+                withSonarQubeEnv('sonar-server') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Django-Api \
+                    -Dsonar.java.binaries=. \
+                    -Dsonar.projectKey=Django-api '''
+                }
             }
         }
         
@@ -37,11 +41,11 @@ pipeline {
         
         stage('Docker Build & Push') {
             steps {
-                // script{
-                //     withDockerRegistry(credentialsId: 'ce1c36b2-5c54-42ac-940e-0372d929ec2d', toolName: 'docker') {
-                //         sh 'docker build -t ikegabrielez/django-api:latest .'
-                //         sh 'docker push ikegabrielez/django-api:latest'
-                //     }
+                script{
+                    withDockerRegistry(credentialsId: 'ce1c36b2-5c54-42ac-940e-0372d929ec2d', toolName: 'docker') {
+                        sh 'docker build -t ikegabrielez/django-api:latest .'
+                        sh 'docker push ikegabrielez/django-api:latest'
+                    }
                 sh 'docker ps'
                 
             }
@@ -83,27 +87,5 @@ pipeline {
             }
         }
         
-        // stage('Test Dir') {
-        //     steps {
-        //         dir('backend/'){
-        //             sh 'ls'
-        //             withCredentials([string(credentialsId: 'talent-secret-key', variable: 'SECRET_KEY')]) {
-        //             sh 'export SECRET_KEY=$SECRET_KEY'
-        //             sh 'printenv'
-        //         }
-        //         }
-        //     }
-        // }
-        // stage('OWASP Scan') {
-        //     steps {
-        //         dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'dp'
-        //         dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-        //     }
-        // }
-        // stage('Test Env') {
-        //     steps {
-                
-        //     }
-        // }
     }
 }
