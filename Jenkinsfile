@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment{
+        SCANNER_HOME= tool 'sonar-scanner'
+        AWS_CLUSTER_NAME='DJANGO-CLUSTER'
+        AWS_LAUNCH_TYPE='FARGATE'
+    }
+
     stages {
         stage('Git Checkout') {
             steps {
@@ -59,7 +65,20 @@ pipeline {
         
         stage('Deploy To Dev') {
             steps {
-                sh 'docker ps'
+                withCredentials([string(credentialsId: 'a0a700c7-8a60-4654-8b36-ef6dfcc3b6fe', variable: 'SECRET_ACCESS_KEY'),
+                string(credentialsId: '2e701915-c12e-4259-87bd-d69b33737eac', variable: 'ACCESS_KEY_ID'),
+                string(credentialsId: 'cb509d99-cd5c-490e-a791-ed7e86b3f810', variable: 'TASK_ARN')]) {
+                    
+                    sh 'aws configure set aws_access_key_id $ACCESS_KEY_ID'
+                    sh 'aws configure set aws_secret_access_key $SECRET_ACCESS_KEY'
+                    sh 'aws configure set region us-east-1'
+                    sh 'aws configure list'
+
+                    sh ''' aws ecs run-task \
+                            --cluster $AWS_CLUSTER_NSME \
+                            --launch-type $AWS_LAUNCH_TYPE \
+                            --task-definition $TASK_ARN '''
+                }
             }
         }
         

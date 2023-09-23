@@ -18,6 +18,7 @@ The scope of this documentation covers the entire CI/CD pipeline setup, from con
 Before proceeding, ensure you have the following tools and services in place:
 - Jenkins CI Server
 - Docker
+- DockerHub
 - AWS Account
 - AWS CLI (Command Line Interface)
 - Terraform
@@ -80,7 +81,7 @@ Make sure you have the necessary permissions to create resources in Jenkins, Doc
 ### AWS Account
 7. Sign in to your AWS account or create one if you haven't already.
 
-### Amazon Elastic Container Registry (ECR)
+### Amazon Elastic Container Registry (Optional)
 8. Create an ECR repository to store your Docker images:
    - Use the AWS Management Console or AWS CLI to create the repository.
    - Note down the repository URI.
@@ -89,6 +90,10 @@ Make sure you have the necessary permissions to create resources in Jenkins, Doc
 9. Create an AWS IAM role with the necessary permissions for ECS:
    - Attach policies like `AmazonEC2ContainerRegistryFullAccess` and `AmazonECS_FullAccess` to the role.
    - Attach this role to your ECS task definition (see section 7).
+
+### CONFIGURE APP ENVIRONMENT
+10. Configure the environment of the AWS service whiich you wish to deploy the app to. For this instance its AWS Fargate:
+
 
 ---
 
@@ -101,7 +106,7 @@ Make sure you have the necessary permissions to create resources in Jenkins, Doc
 
 ### ECS Task Definition
 11. Create an ECS task definition:
-    - Define the container using the Docker image from your ECR repository.
+    - Define the container using the Docker image from your Container repository e.g DockerHub.
     - Configure networking, resource limits, and environment variables.
 
 ### ECS Service
@@ -167,5 +172,3 @@ This documentation has provided a comprehensive guide to setting up a CI/CD pipe
 - [AWS IAM Roles Documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
 
 ---
-
-*Note: Ensure that you continuously update and adapt your CI/CD pipeline and infrastructure to meet the evolving needs of your project and organization.*
