@@ -68,7 +68,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'a0a700c7-8a60-4654-8b36-ef6dfcc3b6fe', variable: 'SECRET_ACCESS_KEY'),
                 string(credentialsId: '2e701915-c12e-4259-87bd-d69b33737eac', variable: 'ACCESS_KEY_ID'),
                 string(credentialsId: 'cb509d99-cd5c-490e-a791-ed7e86b3f810', variable: 'TASK_ARN')]) {
-                    
+
                     sh 'aws configure set aws_access_key_id $ACCESS_KEY_ID'
                     sh 'aws configure set aws_secret_access_key $SECRET_ACCESS_KEY'
                     sh 'aws configure set region us-east-1'
@@ -90,7 +90,7 @@ pipeline {
         
         stage('Deploy To QA') {
             steps {
-                sh 'docker ps'
+                sh 'echo Input steps to deploy to QA Environment'
             }
         }
         
@@ -102,7 +102,7 @@ pipeline {
         
         stage('Deploy To Prod'){
             steps{
-                sh 'printenv'
+                sh 'Include steps to deploy to your Prod staging Environment'
             }
         }
         
